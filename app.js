@@ -32,8 +32,8 @@ class ReadingApp {
         container.innerHTML = HEBREW_DATA.levels.map((level, i) => {
             const completed = this.progress[level.id];
             const stars = this.progress[level.id + '-stars'] || 0;
-            // First level is always unlocked; others unlock when previous is completed
-            const unlocked = i === 0 || this.progress[HEBREW_DATA.levels[i - 1].id];
+            // All levels are unlocked — kids can explore freely
+            const unlocked = true;
 
             return `
                 <div class="level-card ${completed ? 'completed' : ''} ${!unlocked ? 'locked' : ''}"
