@@ -144,16 +144,16 @@ class ReadingApp {
         this._setProgress((this.currentIndex + 1) / total);
         document.getElementById('learn-container').innerHTML = `
             <div class="learn-card">
-                <div class="learn-letter" onclick="audio.speak('${item.name}')">${item.letter}</div>
+                <div class="learn-letter" onclick="audio.speakLetter('${item.letter}')">${item.letter}</div>
                 <div class="learn-letter-name">${item.name}</div>
                 <div class="learn-letter-sound">צליל: ${item.sound}</div>
                 <div class="learn-hint">
-                    <span class="hint-example">${item.example}</span>
+                    <span class="hint-example" onclick="audio.speak('${item.example}')">${item.example}</span>
                     ${item.hint}
                 </div>
             </div>
             ${this._learnNav(total)}`;
-        setTimeout(() => audio.speak(item.name), 300);
+        setTimeout(() => audio.speakLetter(item.letter), 300);
     }
 
     // ── learn: vowels ────────────────────────────────────
@@ -251,8 +251,12 @@ class ReadingApp {
     _speakCurrent() {
         const item = this.learnItems[this.currentIndex];
         if (!item) return;
-        const text = item.name || item.text || item.word || '';
-        audio.speak(text);
+        if (this.currentLevel.type === 'learn-letters') {
+            audio.speakLetter(item.letter);
+        } else {
+            const text = item.text || item.word || item.name || '';
+            audio.speak(text);
+        }
     }
 
     _setProgress(ratio) {
